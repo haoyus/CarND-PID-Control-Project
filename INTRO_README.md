@@ -3,47 +3,6 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
-## Introduction
-
-In this project, I designed a PID controller to control the simulator vihicle, both longitudinally and laterally. Longitudinally, I used the PID controller to control the vehicle's throttle to follow a reference speed. Laterally, the PID controller outputs steering angle based on the CTE and tries to bring the CTE to 0.
-
-Both controllers share the same set of hyperparameters. The car is able to finish multiple laps without hitting the curb.
-
-## Key rubic points check
-
-### 1. Code must compile --- YES
-
-Please Fork/Download my branch and follow the "basic build instructions" in the Appendix to build and run the project.
-
-### 2. The PID procedure follows what was taught in the lessons --- YES
-
-The PID controller I designed contains 3 main steps: Initialize, Update individual error, and Update final error.
-
-### 3. Describe the effect each of the P, I, D components had in your implementation --- See below
-
-P - proportional. This component acts directly on the actual error and tries to reduce the error. But it'll bring overshoot and oscillation.
-I - integral. This component acts on the integration of actual error and is able to reduce system bias, the integration of which tends to increase over time.
-D - derivative. This component acts on the changing rate of the actual error, to reduce overshoot and oscillation.
-
-### 4. Describe how the final hyperparameters were chosen --- See below
-
-As the first step, I initialized the PID as P only controller, which means only P component is non-zero. First I gave it a value of 1, just to try out. And it turned out that the car overshoots quickly and oscillates badly.
-
-Then I reduced the P value to 0.1, which seemed to work fine on straight lanes. However, whenever there's a curve, the car starts oscillate. So I decided to bring in the D component to reduce overshoot and oscillation. Multiple values are tested, and it appears that neither too big nor too small D values are able to reduce oscillation well. Finally I chose 0.8 as D value, which combines with P value can drive the car in a pretty stable way in most parts of the track.
-
-However, with P and D decided, the car will still tend to go off the track in some sharp turns. This reminds me of bringing in the I term, which in my mind could help in these cases. Because in sharp turns there will be an accumulation of CTE, which can be tackled by the I term. Eventually I set the I term as 0.0023 through tuning.
-
-So the final decision on the hyperparameters is:
-
-P: 0.1
-I: 0.0023
-D: 0.8
-
-### 5. The vehicle must successfully drive a lap around the track --- YES. Actually multiple laps.
-
-
-# Appendix
-
 ## Dependencies
 
 * cmake >= 3.5
@@ -78,6 +37,18 @@ Fellow students have put together a guide to Windows set-up for the project [her
 
 Tips for setting up your environment can be found [here](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/f758c44c-5e40-4e01-93b5-1a82aa4e044f/concepts/23d376c7-0195-4276-bdf0-e02f1f3c665d)
 
+## Editor Settings
+
+We've purposefully kept editor configuration files out of this repo in order to
+keep it as simple and environment agnostic as possible. However, we recommend
+using the following settings:
+
+* indent using spaces
+* set tab width to 2 spaces (keeps the matrices in source code aligned)
+
+## Code Style
+
+Please (do your best to) stick to [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html).
 
 ## Project Instructions and Rubric
 
@@ -87,3 +58,41 @@ cmake and make!
 More information is only accessible by people who are already enrolled in Term 2
 of CarND. If you are enrolled, see [the project page](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/f1820894-8322-4bb3-81aa-b26b3c6dcbaf/lessons/e8235395-22dd-4b87-88e0-d108c5e5bbf4/concepts/6a4d8d42-6a04-4aa6-b284-1697c0fd6562)
 for instructions and the project rubric.
+
+## Hints!
+
+* You don't have to follow this directory structure, but if you do, your work
+  will span all of the .cpp files here. Keep an eye out for TODOs.
+
+## Call for IDE Profiles Pull Requests
+
+Help your fellow students!
+
+We decided to create Makefiles with cmake to keep this project as platform
+agnostic as possible. Similarly, we omitted IDE profiles in order to we ensure
+that students don't feel pressured to use one IDE or another.
+
+However! I'd love to help people get up and running with their IDEs of choice.
+If you've created a profile for an IDE that you think other students would
+appreciate, we'd love to have you add the requisite profile files and
+instructions to ide_profiles/. For example if you wanted to add a VS Code
+profile, you'd add:
+
+* /ide_profiles/vscode/.vscode
+* /ide_profiles/vscode/README.md
+
+The README should explain what the profile does, how to take advantage of it,
+and how to install it.
+
+Frankly, I've never been involved in a project with multiple IDE profiles
+before. I believe the best way to handle this would be to keep them out of the
+repo root to avoid clutter. My expectation is that most profiles will include
+instructions to copy files to a new location to get picked up by the IDE, but
+that's just a guess.
+
+One last note here: regardless of the IDE used, every submitted project must
+still be compilable with cmake and make./
+
+## How to write a README
+A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+
