@@ -22,7 +22,9 @@ The PID controller I designed contains 3 main steps: Initialize, Update individu
 ### 3. Describe the effect each of the P, I, D components had in your implementation --- See below
 
 P - proportional. This component acts directly on the actual error and tries to reduce the error. But it'll bring overshoot and oscillation.
+
 I - integral. This component acts on the integration of actual error and is able to reduce system bias, the integration of which tends to increase over time.
+
 D - derivative. This component acts on the changing rate of the actual error, to reduce overshoot and oscillation.
 
 ### 4. Describe how the final hyperparameters were chosen --- See below
